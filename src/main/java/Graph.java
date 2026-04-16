@@ -1,15 +1,17 @@
-import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Graph {
 
     int[][] matrix;
+    Node root;
 
     Graph(int size){
         matrix = new int[size][size];
-
+    }
+    Graph(int[][] matrix){
+        this.matrix = matrix;
     }
 
     public void addNode(Node node){
@@ -34,19 +36,40 @@ public class Graph {
     //weakly means u-v path for every u,v if direction ignored
 
 
-    public void isWeaklyConnected(){
-        boolean[] visited = new boolean[matrix.length];
+    public boolean isWeaklyConnected(){
 
-        HashSet<Node> discoveredSet = new HashSet<>();
-        Queue<Node> frontierQueue = new LinkedList<>();
+        boolean[] discoveredSet = new boolean[matrix.length];
+        Queue<Integer> frontierQueue = new LinkedList<>();
 
+        frontierQueue.add(0);
+        discoveredSet[0] = true;
 
+        while(frontierQueue.size() > 0){
+            Integer currentNode = frontierQueue.remove();
 
+            for (int i = 0; i < matrix.length; i++) {
 
+                if(discoveredSet[i] == false && (matrix[currentNode][i] == 1||matrix[i][currentNode]==1)){
+                    frontierQueue.add(i);
 
+                    discoveredSet[i] = true;
 
+                }
+                
+            }
+
+        }
+        for (int i = 0; i < discoveredSet.length; i++) {
+            if (discoveredSet[i] == false){
+                return false;
+
+            }
+        }
+        return true;
 
     }
+
+
 
 
 }
