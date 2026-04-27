@@ -1,5 +1,7 @@
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class Graph {
@@ -69,9 +71,34 @@ public class Graph {
 
     }
 
+    public void printAllCycles(){
+        for (int i = 0; i < matrix.length; i++) {
+            List<Integer> path = new ArrayList<>();
+            findCycles(i,i, 0, path);
+        }
+    }
 
+    public void findCycles(int current, int start, int depth, List<Integer> path){
+        if(depth == 4){
+            if(current == start){
+                System.out.print(start+ " - ");
+                for(int node: path) {
+                    System.out.print(node + " - ");
+                }
+                System.out.println(start);
+            }
+            return;
+        }
 
+        for (int i = 0; i < matrix.length; i++) {
+            if(matrix[current][i] != 0 ){
+                path.add(i);
+                findCycles(i, start, depth+1, path);
+                path.remove(path.size()-1);
+            }
+        }
 
+    }
 }
 
 
